@@ -26,19 +26,36 @@ class TV
 {
     public $manufacturer, $diagonal, $price;
      
-    function getInfo()
+    function getInfoFor($id_tv)
     {
-        echo "Производитель: $this->manufacturer; Диагональ: $this->diagonal; Цена: $this->price <br>";
+    	for($i = 0; $i < count($id_tv); $i++) 
+			{
+				echo 'Телевизор ' . $this->manufacturer[$i]. '; Диагональ ' . $this->diagonal[$i]. '; Цена ' . $this->price[$i].";<br>";
+			}
     }
+    function getInfo($i)
+    {
+		echo'Телевизор ' . $this->manufacturer[$i]. '; Диагональ ' . $this->diagonal[$i]. '; Цена ' . $this->price[$i].";<br>";
+    }
+    
 }
 
 class Monitor
 {
     public $manufacturer, $diagonal, $exit_type, $price;
      
-    function getInfo()
+    function getInfoFor($id_mn)
     {
-        echo "Производитель: $this->manufacturer; Диагональ: $this->diagonal; Тип выхода: $this->exit_type; Цена: $this->price <br>";
+    	for($i = 0; $i < count($id_mn); $i++) 
+			{
+				echo 'Монитор ' . $this->manufacturer[$i]. '; Диагональ ' . $this->diagonal[$i]. '; Тип выхода '. $this->exit_type[$i]. '; Цена ' . $this->price[$i].";<br>";
+			}
+        
+    }
+    function getInfo($i)
+    {
+		echo 'Монитор ' . $this->manufacturer[$i]. '; Диагональ ' . $this->diagonal[$i]. '; Тип выхода '. $this->exit_type[$i]. '; Цена ' . $this->price[$i].";<br>";
+        
     }
 }
 
@@ -46,95 +63,64 @@ class Keybord
 {
     public $manufacturer, $number_of_keys, $connector_type, $price;
      
-    function getInfo()
+    function getInfoFor($id_kb)
     {
-        echo "Производитель: $this->manufacturer; Количество клавиш: $this->number_of_keys; Тип подключения: $this->connector_type; Цена: $this->price <br>";
+    	for($i = 0; $i < count($id_kb); $i++) 
+			{
+				 echo 'Клавиатура ' . $this->manufacturer[$i]. '; Количество кнопок ' . $this->number_of_keys[$i]. '; Тип подключения '. $this->connector_type[$i]. '; Цена ' . $this->price[$i].";<br>";
+			}
+       
+    }
+    function getInfo($i)
+    {
+		echo 'Клавиатура ' . $this->manufacturer[$i]. '; Количество кнопок ' . $this->number_of_keys[$i]. '; Тип подключения '. $this->connector_type[$i]. '; Цена ' . $this->price[$i].";<br>";
+       
     }
 }
 
 		$tv = new TV;
-		try {
-			 $dbh = new PDO("mysql:host=$host;dbname=$db;charset=UTF8", $user, $pass);
-			 $dbh->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-			 $sql = "use $db";
-			 $dbh->query($sql);
-			 $sql = "SELECT * FROM tv";
-			 
-			 foreach ($dbh->query($sql) as $row) {		
-				 $id_tv[] = $row ['id'];		
-				 $tv->manufacturer[] = $row ['manufacturer'];
-				 $tv->diagonal[] = $row ['diagonal'];
-				 $tv->price[] = $row ['price'];
-			}
-		
-		} catch (PDOException $ex) {
-			echo "<p style='color: red'>" . $ex->getMessage() . "</p>";
-			echo "<pre>";
-			print_r($ex->getTrace());
-			echo "</pre>";
-		}
-	 
-			echo "<br>----------------<br>";
-			for($i = 0; $i < count($id_tv); $i++) 
-				{ 
-        
-						echo $tv->manufacturer[$i] . " ";
-						echo $tv->diagonal[$i] . " ";
-						echo $tv->price[$i] . " ";
-						echo "<br>";
-				}
-			echo "<br>----------------<br>";
-
 		$mn = new Monitor;
-		try {
-			 $dbh = new PDO("mysql:host=$host;dbname=$db;charset=UTF8", $user, $pass);
-			 $dbh->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-			 $sql = "use $db";
-			 $dbh->query($sql);
-			 $sql = "SELECT * FROM monitors";
-			 
-			 foreach ($dbh->query($sql) as $row) {		
-				 $id_mn[] = $row ['id'];		
-				 $mn->manufacturer[] = $row ['manufacturer'];
-				 $mn->diagonal[] = $row ['diagonal'];
-				 $mn->exit_type[] = $row ['exit_type'];
-				 $mn->price[] = $row ['price'];
-			}
-		
-		} catch (PDOException $ex) {
-			echo "<p style='color: red'>" . $ex->getMessage() . "</p>";
-			echo "<pre>";
-			print_r($ex->getTrace());
-			echo "</pre>";
-		}
-	 
-			echo "<br>----------------<br>";
-			for($i = 0; $i < count($id_mn); $i++) 
-				{ 
-        
-						echo $mn->manufacturer[$i] . " ";
-						echo $mn->diagonal[$i] . " ";
-						echo $mn->exit_type[$i] . " ";
-						echo $mn->price[$i] . " ";
-						echo "<br>";
-				}
-			echo "<br>----------------<br>";
-
 		$kb = new Keybord;
-		try {
+
+		try 
+		{
 			 $dbh = new PDO("mysql:host=$host;dbname=$db;charset=UTF8", $user, $pass);
 			 $dbh->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 			 $sql = "use $db";
 			 $dbh->query($sql);
-			 $sql = "SELECT * FROM keybord";
-			 
-			 foreach ($dbh->query($sql) as $row) {		
-				 $id_kb[] = $row ['id'];		
-				 $kb->manufacturer[] = $row ['manufacturer'];
-				 $kb->number_of_keys[] = $row ['number_of_keys'];
-				 $kb->connector_type[] = $row ['connector_type'];
-				 $kb->price[] = $row ['price'];
-			}
+
+				 $sql = "SELECT * FROM tv";
+				 foreach ($dbh->query($sql) as $row) 
+				{		
+					 $id_tv[] = $row ['id'];		
+					 $tv->manufacturer[] = $row ['manufacturer'];
+					 $tv->diagonal[] = $row ['diagonal'];
+					 $tv->price[] = $row ['price'];
+				}
+
+				$sql = "use $db";
+				$dbh->query($sql);
+				$sql = "SELECT * FROM monitors";
+				 foreach ($dbh->query($sql) as $row) 
+				{		
+					 $id_mn[] = $row ['id'];			
+					 $mn->manufacturer[] = $row ['manufacturer'];
+					 $mn->diagonal[] = $row ['diagonal'];
+					 $mn->exit_type[] = $row ['exit_type'];
+					 $mn->price[] = $row ['price'];
+				}
+
+				$sql = "use $db";
+				$dbh->query($sql);
+				$sql = "SELECT * FROM keybord";
+				 foreach ($dbh->query($sql) as $row) 
+				{		
+					 $id_kb[] = $row ['id'];	
+					 $kb->manufacturer[] = $row ['manufacturer'];
+					 $kb->number_of_keys[] = $row ['number_of_keys'];
+					 $kb->connector_type[] = $row ['connector_type'];
+					 $kb->price[] = $row ['price'];
+				}
 		
 		} catch (PDOException $ex) {
 			echo "<p style='color: red'>" . $ex->getMessage() . "</p>";
@@ -144,15 +130,11 @@ class Keybord
 		}
 	 
 			echo "<br>----------------<br>";
-			for($i = 0; $i < count($id_mn); $i++) 
-				{ 
-        
-						echo $kb->manufacturer[$i] . " ";
-						echo $kb->number_of_keys[$i] . " ";
-						echo $kb->connector_type[$i] . " ";
-						echo $kb->price[$i] . " ";
-						echo "<br>";
-				}
+			echo $tv->getInfoFor($id_tv);
+			echo "<br>----------------<br>";
+			echo $mn->getInfoFor($id_mn);
+			echo "<br>----------------<br>";
+			echo $kb->getInfoFor($id_kb);
 			echo "<br>----------------<br>";
 		
 ?>
@@ -236,7 +218,7 @@ class Keybord
 							{
 									if ($tv->price[$i] >= $_POST['price']) 
 								{
-								echo 'Телевизор ;' . 'Производитель ' . $tv->manufacturer[$i]. '; Диагональ ' . $tv->diagonal[$i]. '; Цена ' . $tv->price[$i].";<br>";
+									echo $tv->getInfo($i);
 								}
 							}
 
@@ -244,7 +226,7 @@ class Keybord
 							{
 									if ($mn->price[$i] >= $_POST['price']) 
 								{
-								echo 'Монитор ;' .'Производитель ' . $mn->manufacturer[$i]. '; Диагональ ' . $mn->diagonal[$i]. '; Тип выхода '. $mn->exit_type[$i]. '; Цена ' . $mn->price[$i].";<br>";
+									echo $mn->getInfo($i);
 								}
 							}
 
@@ -252,7 +234,7 @@ class Keybord
 							{
 									if ($kb->price[$i] >= $_POST['price']) 
 								{
-								echo 'Монитор ;' .'Производитель ' . $kb->manufacturer[$i]. '; Диагональ ' . $kb->diagonal[$i]. '; Тип выхода '. $kb->exit_type[$i]. '; Цена ' . $kb->price[$i].";<br>";
+									echo $kb->getInfo($i);
 								}
 							}
 				}  
@@ -264,7 +246,7 @@ class Keybord
 							{
 									if ($tv->diagonal[$i] == $_POST['diagonal']) 
 								{
-								echo 'Телевизор ;' . 'Производитель ' . $tv->manufacturer[$i]. '; Диагональ ' . $tv->diagonal[$i]. '; Цена ' . $tv->price[$i].";<br>";
+									echo $tv->getInfo($i);
 								}
 							}
 
@@ -272,7 +254,7 @@ class Keybord
 							{
 									if ($mn->diagonal[$i] == $_POST['diagonal']) 
 								{
-								echo 'Монитор ;' .'Производитель ' . $mn->manufacturer[$i]. '; Диагональ ' . $mn->diagonal[$i]. '; Тип выхода '. $mn->exit_type[$i]. '; Цена ' . $mn->price[$i].";<br>";
+									echo $mn->getInfo($i);
 								}
 							}
 				}        
@@ -287,7 +269,7 @@ class Keybord
 								{
 										if ($tv->manufacturer[$i] == "LG") 
 									{
-									echo 'Телевизор ;' . 'Производитель ' . $tv->manufacturer[$i]. '; Диагональ ' . $tv->diagonal[$i]. '; Цена ' . $tv->price[$i].";<br>";
+										echo $tv->getInfo($i);
 									}
 								}
 
@@ -295,7 +277,7 @@ class Keybord
 								{
 										if ($mn->manufacturer[$i] == "LG") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $mn->manufacturer[$i]. '; Диагональ ' . $mn->diagonal[$i]. '; Тип выхода '. $mn->exit_type[$i]. '; Цена ' . $mn->price[$i].";<br>";
+										echo $mn->getInfo($i);
 									}
 								}
 
@@ -303,7 +285,7 @@ class Keybord
 								{
 										if ($kb->manufacturer[$i] == "LG") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $kb->manufacturer[$i]. '; Диагональ ' . $kb->diagonal[$i]. '; Тип выхода '. $kb->exit_type[$i]. '; Цена ' . $kb->price[$i].";<br>";
+										echo $kb->getInfo($i);
 									}
 								}
 						}
@@ -314,7 +296,7 @@ class Keybord
 								{
 										if ($tv->manufacturer[$i] == "SAMSUNG") 
 									{
-									echo 'Телевизор ;' . 'Производитель ' . $tv->manufacturer[$i]. '; Диагональ ' . $tv->diagonal[$i]. '; Цена ' . $tv->price[$i].";<br>";
+										echo $tv->getInfo($i);
 									}
 								}
 
@@ -322,7 +304,7 @@ class Keybord
 								{
 										if ($mn->manufacturer[$i] == "SAMSUNG") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $mn->manufacturer[$i]. '; Диагональ ' . $mn->diagonal[$i]. '; Тип выхода '. $mn->exit_type[$i]. '; Цена ' . $mn->price[$i].";<br>";
+										echo $mn->getInfo($i);
 									}
 								}
 
@@ -330,7 +312,7 @@ class Keybord
 								{
 										if ($kb->manufacturer[$i] == "SAMSUNG") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $kb->manufacturer[$i]. '; Диагональ ' . $kb->diagonal[$i]. '; Тип выхода '. $kb->exit_type[$i]. '; Цена ' . $kb->price[$i].";<br>";
+										echo $kb->getInfo($i);
 									}
 								}
 						}
@@ -341,7 +323,7 @@ class Keybord
 								{
 										if ($tv->manufacturer[$i] == "Bravis") 
 									{
-									echo 'Телевизор ;' . 'Производитель ' . $tv->manufacturer[$i]. '; Диагональ ' . $tv->diagonal[$i]. '; Цена ' . $tv->price[$i].";<br>";
+										echo $tv->getInfo($i);
 									}
 								}
 
@@ -349,7 +331,7 @@ class Keybord
 								{
 										if ($mn->manufacturer[$i] == "Bravis") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $mn->manufacturer[$i]. '; Диагональ ' . $mn->diagonal[$i]. '; Тип выхода '. $mn->exit_type[$i]. '; Цена ' . $mn->price[$i].";<br>";
+										echo $mn->getInfo($i);
 									}
 								}
 
@@ -357,7 +339,7 @@ class Keybord
 								{
 										if ($kb->manufacturer[$i] == "Bravis") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $kb->manufacturer[$i]. '; Диагональ ' . $kb->diagonal[$i]. '; Тип выхода '. $kb->exit_type[$i]. '; Цена ' . $kb->price[$i].";<br>";
+										echo $kb->getInfo($i);
 									}
 								}
 						}
@@ -368,7 +350,7 @@ class Keybord
 								{
 										if ($tv->manufacturer[$i] == "DELL") 
 									{
-									echo 'Телевизор ;' . 'Производитель ' . $tv->manufacturer[$i]. '; Диагональ ' . $tv->diagonal[$i]. '; Цена ' . $tv->price[$i].";<br>";
+										echo $tv->getInfo($i);
 									}
 								}
 
@@ -376,7 +358,7 @@ class Keybord
 								{
 										if ($mn->manufacturer[$i] == "DELL") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $mn->manufacturer[$i]. '; Диагональ ' . $mn->diagonal[$i]. '; Тип выхода '. $mn->exit_type[$i]. '; Цена ' . $mn->price[$i].";<br>";
+										echo $mn->getInfo($i);
 									}
 								}
 
@@ -384,7 +366,7 @@ class Keybord
 								{
 										if ($kb->manufacturer[$i] == "DELL") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $kb->manufacturer[$i]. '; Диагональ ' . $kb->diagonal[$i]. '; Тип выхода '. $kb->exit_type[$i]. '; Цена ' . $kb->price[$i].";<br>";
+										echo $kb->getInfo($i);
 									}
 								}
 						}
@@ -395,7 +377,7 @@ class Keybord
 								{
 										if ($tv->manufacturer[$i] == "Logitech") 
 									{
-									echo 'Телевизор ;' . 'Производитель ' . $tv->manufacturer[$i]. '; Диагональ ' . $tv->diagonal[$i]. '; Цена ' . $tv->price[$i].";<br>";
+										echo $tv->getInfo($i);
 									}
 								}
 
@@ -403,7 +385,7 @@ class Keybord
 								{
 										if ($mn->manufacturer[$i] == "Logitech") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $mn->manufacturer[$i]. '; Диагональ ' . $mn->diagonal[$i]. '; Тип выхода '. $mn->exit_type[$i]. '; Цена ' . $mn->price[$i].";<br>";
+										echo $mn->getInfo($i);
 									}
 								}
 
@@ -411,7 +393,7 @@ class Keybord
 								{
 										if ($kb->manufacturer[$i] == "Logitech") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $kb->manufacturer[$i]. '; Диагональ ' . $kb->diagonal[$i]. '; Тип выхода '. $kb->exit_type[$i]. '; Цена ' . $kb->price[$i].";<br>";
+										echo $kb->getInfo($i);
 									}
 								}
 						}
@@ -422,7 +404,7 @@ class Keybord
 								{
 										if ($tv->manufacturer[$i] == "Trust") 
 									{
-									echo 'Телевизор ;' . 'Производитель ' . $tv->manufacturer[$i]. '; Диагональ ' . $tv->diagonal[$i]. '; Цена ' . $tv->price[$i].";<br>";
+										echo $tv->getInfo($i);
 									}
 								}
 
@@ -430,7 +412,7 @@ class Keybord
 								{
 										if ($mn->manufacturer[$i] == "Trust") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $mn->manufacturer[$i]. '; Диагональ ' . $mn->diagonal[$i]. '; Тип выхода '. $mn->exit_type[$i]. '; Цена ' . $mn->price[$i].";<br>";
+										echo $mn->getInfo($i);
 									}
 								}
 
@@ -438,7 +420,7 @@ class Keybord
 								{
 										if ($kb->manufacturer[$i] == "Trust") 
 									{
-									echo 'Монитор ;' .'Производитель ' . $kb->manufacturer[$i]. '; Диагональ ' . $kb->diagonal[$i]. '; Тип выхода '. $kb->exit_type[$i]. '; Цена ' . $kb->price[$i].";<br>";
+										echo $kb->getInfo($i);
 									}
 								}
 						}
@@ -450,26 +432,17 @@ class Keybord
 						if ($_POST['shop_window']==1)
 						{
 							echo "<br> Все телевизоры <br>";
-							for($i = 0; $i < count($id_tv); $i++) 
-								{
-									echo 'Телевизор ;' . 'Производитель ' . $tv->manufacturer[$i]. '; Диагональ ' . $tv->diagonal[$i]. '; Цена ' . $tv->price[$i].";<br>";
-								}
+							echo $tv->getInfoFor($id_tv);
 						}
 						if ($_POST['shop_window']==2)
 						{
 							echo "<br> Все мониторы <br>";
-							for($i = 0; $i < count($id_mn); $i++) 
-								{
-									echo 'Монитор ;' .'Производитель ' . $mn->manufacturer[$i]. '; Диагональ ' . $mn->diagonal[$i]. '; Тип выхода '. $mn->exit_type[$i]. '; Цена ' . $mn->price[$i].";<br>";
-								}
+							echo $mn->getInfoFor($id_mn);
 						}
 						if ($_POST['shop_window']==3)
 						{
 							echo "<br> Все клавиатуры <br>";
-							for($i = 0; $i < count($id_kb); $i++) 
-								{
-									echo 'Монитор ;' .'Производитель ' . $kb->manufacturer[$i]. '; Диагональ ' . $kb->diagonal[$i]. '; Тип выхода '. $kb->exit_type[$i]. '; Цена ' . $kb->price[$i].";<br>";
-								}
+							echo $kb->getInfoFor($id_kb);
 						}
 				}
  	?>
